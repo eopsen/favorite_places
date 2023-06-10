@@ -21,6 +21,12 @@ if (flutterVersionName == null) {
     flutterVersionName = '1.0'
 }
 
+def dartEnvironmentVariables = [
+   GOOGLE_MAPS_API_KEY: project.hasProperty('GOOGLE_MAPS_API_KEY')
+           ? GOOGLE_MAPS_API_KEY
+           : 'YOUR GOOGLE MAPS API KEY'
+];
+
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
@@ -51,6 +57,7 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+        resValue "string", "googleMapApiKey", dartEnvironmentVariables.GOOGLE_MAPS_API_KEY
     }
 
     buildTypes {

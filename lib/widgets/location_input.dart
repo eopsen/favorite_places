@@ -27,13 +27,15 @@ class _LocationInputState extends State<LocationInput> {
 
     final lat = _pickedLocation!.latitude;
     final lng = _pickedLocation!.longitude;
+    const apiKey = String.fromEnvironment("GOOGLE_MAPS_API_KEY");
 
-    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=AIzaSyAAqWexKpwdLLIlU3cyL8hUcrIZw_LWDTk';
+    return 'https://maps.googleapis.com/maps/api/staticmap?center=$lat,$lng&zoom=16&size=600x300&maptype=roadmap&markers=color:red%7Clabel:A%7C$lat,$lng&key=$apiKey';
   }
 
   Future<void> _savePlace(double latitude, double longitude) async {
+    const apiKey = String.fromEnvironment("GOOGLE_MAPS_API_KEY");
     final url = Uri.parse(
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=AIzaSyAAqWexKpwdLLIlU3cyL8hUcrIZw_LWDTk');
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=$latitude,$longitude&key=$apiKey');
 
     final response = await http.get(url);
     final responseData = json.decode(response.body);

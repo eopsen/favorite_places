@@ -50,7 +50,8 @@ class _MapScreenState extends State<MapScreen> {
     // Generating the list of coordinates to be used for
     // drawing the polylines
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyAAqWexKpwdLLIlU3cyL8hUcrIZw_LWDTk", // Google Maps API Key
+      const String.fromEnvironment(
+          'GOOGLE_MAPS_API_KEY'), // Google Maps API Key
       PointLatLng(startLatitude, startLongitude),
       PointLatLng(destinationLatitude, destinationLongitude),
       travelMode: TravelMode.transit,
