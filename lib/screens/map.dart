@@ -3,8 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../models/place.dart';
 
-
-
 class MapScreen extends StatefulWidget {
   const MapScreen(
       {super.key,
@@ -20,11 +18,7 @@ class MapScreen extends StatefulWidget {
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
-// Object for PolylinePoints
-/*Future<void> getDirections(LatLng origin,LatLng Destination) async{
-  final String url = "https://maps.googleapis.com/maps/directions/json?origin=$origin&destination=$Destination&key=AIzaSyAAqWexKpwdLLIlU3cyL8hUcrIZw_LWDTk";
-  print(json);
-}*/
+
 Future<Position> _getCurrentLocation() async {
   return await Geolocator.getCurrentPosition();
 }
@@ -43,12 +37,10 @@ class _MapScreenState extends State<MapScreen> {
         ],
       width:5,
     );
-   // getDirections(LatLng(lat,lng), LatLng(widget.location.latitude, widget.location.longitude));
     _getCurrentLocation().then((value){
       lat =  value.latitude;
       lng =  value.longitude;
     });
-    //_createPolylines(widget.location.latitude,widget.location.longitude,lat,lng);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -64,7 +56,6 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: GoogleMap(
-        //polylines: Set<Polyline>.of(polylines.values),
         onTap: !widget.isSelecting
             ? null
             : (position) {
@@ -95,7 +86,7 @@ class _MapScreenState extends State<MapScreen> {
                       ),
                 ),
           Marker(
-            markerId: const MarkerId('m1'),
+            markerId: const MarkerId('m2'),
             position: _pickedLocation ??
                 LatLng(
                   widget.location.latitude,
