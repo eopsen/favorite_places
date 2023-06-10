@@ -1,16 +1,19 @@
 # favorite_places
 
-A new Flutter project.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+Aplikacja "Favorite Places" to praktyczne narzędzie, które umożliwia użytkownikom dodawanie, przechowywanie i zarządzanie listą ich ulubionych miejsc. Niezależnie od tego, czy jest to restauracja, kawiarnia, park, muzeum czy cokolwiek innego, ta aplikacja pozwoli Ci mieć wszystkie te miejsca pod kontrolą.
 
-A few resources to get you started if this is your first Flutter project:
+Aplikacja korzysta z następujących google maps api:
+- directions api
+- geocoding api
+- maps sdk for android/ios
+- maps static api
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+W celu uruchomienia aplikacji należy wywołać komendę: 
+`flutter run --dart-define GOOGLE_MAPS_API_KEY=YOUR_API_KEY`
+
+w razie problemów:
+	`flutter clean`
+	`flutter pub get`
