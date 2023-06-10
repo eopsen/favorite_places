@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import '../models/place.dart';
+
+
 
 class MapScreen extends StatefulWidget {
   const MapScreen(
@@ -12,19 +14,41 @@ class MapScreen extends StatefulWidget {
         address: '',
       ),
       this.isSelecting = true});
-
   final PlaceLocation location;
   final bool isSelecting;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
+// Object for PolylinePoints
+/*Future<void> getDirections(LatLng origin,LatLng Destination) async{
+  final String url = "https://maps.googleapis.com/maps/directions/json?origin=$origin&destination=$Destination&key=AIzaSyAAqWexKpwdLLIlU3cyL8hUcrIZw_LWDTk";
+  print(json);
+}*/
+Future<Position> _getCurrentLocation() async {
+  return await Geolocator.getCurrentPosition();
+}
+
+late double lat = 0;
+late double lng = 0;
 
 class _MapScreenState extends State<MapScreen> {
   LatLng? _pickedLocation;
-
   @override
   Widget build(BuildContext context) {
+    final Polyline _polyline = Polyline(polylineId:PolylineId('_polyline'),
+        points :[
+          LatLng(lat,lng),
+          LatLng(widget.location.latitude, widget.location.longitude)
+        ],
+      width:5,
+    );
+   // getDirections(LatLng(lat,lng), LatLng(widget.location.latitude, widget.location.longitude));
+    _getCurrentLocation().then((value){
+      lat =  value.latitude;
+      lng =  value.longitude;
+    });
+    //_createPolylines(widget.location.latitude,widget.location.longitude,lat,lng);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -40,6 +64,7 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: GoogleMap(
+        //polylines: Set<Polyline>.of(polylines.values),
         onTap: !widget.isSelecting
             ? null
             : (position) {
@@ -47,6 +72,7 @@ class _MapScreenState extends State<MapScreen> {
                   _pickedLocation = position;
                 });
               },
+
         initialCameraPosition: CameraPosition(
           target: LatLng(
             widget.location.latitude,
@@ -54,6 +80,9 @@ class _MapScreenState extends State<MapScreen> {
           ),
           zoom: 16,
         ),
+        polylines:{
+          _polyline
+        },
         markers: (_pickedLocation == null && widget.isSelecting)
             ? {}
             : {
@@ -61,10 +90,18 @@ class _MapScreenState extends State<MapScreen> {
                   markerId: const MarkerId('m1'),
                   position: _pickedLocation ??
                       LatLng(
-                        widget.location.latitude,
-                        widget.location.longitude,
+                        lat,
+                        lng,
                       ),
                 ),
+          Marker(
+            markerId: const MarkerId('m1'),
+            position: _pickedLocation ??
+                LatLng(
+                  widget.location.latitude,
+                  widget.location.longitude,
+                ),
+          ),
               },
       ),
     );
